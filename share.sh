@@ -93,7 +93,11 @@ case $action in
             echo "${0##*/}: file is a directory -- $fn" >&2
             exit 1
         fi
-        dir=~/.share/${fn##*/}
+        if [ $outfile == '.' ]; then
+            dir=~/.share/${fn##*/}
+        else
+            dir=~/.share/$outfile
+        fi
         if [ -d $dir ]; then
             echo "${0##*/}: file is already shared -- $fn" >&2
             exit 1
