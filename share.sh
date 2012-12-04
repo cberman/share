@@ -167,8 +167,10 @@ case $action in
         ;;
     list)
         if [ "$(ls -A ~/.share/)" ]; then
-            for fn in ~/.share/*; do
-                echo ${fn##*/}
+            for fn in ~/.share/{.,}*; do
+                if [ ${fn##*/} != '.' -a ${fn##*/} != '..' ]; then
+                    echo ${fn##*/}
+                fi
             done
         fi
         ;;
