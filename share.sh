@@ -121,10 +121,10 @@ case $action in
             mv $fn $dir/$outfile
             case $fn in
                 /*)
-                    echo "$mvfrom $fn" >> $dir/.share_opts
+                    echo "mvfrom $fn" >> $dir/.share_opts
                     ;;
                 *)
-                    echo "$mvfrom $PWD/$fn" >> $dir/.share_opts
+                    echo "mvfrom $PWD/$fn" >> $dir/.share_opts
                     ;;
             esac
         else
@@ -156,10 +156,10 @@ case $action in
             echo "${0##*/}: file does not exist -- $fn" >&2
             exit 1
         fi
-        while read $line; do
+        while read line; do
             var=$(cut -d\  -f1 <<< $line)
-            if [ var == 'mvfrom' ]; then
-                mv $dir $(cut -d\  -f1 <<< $line)
+            if [ $var == 'mvfrom' ]; then
+                mv $dir/$fn $(cut -d\  -f2 <<< $line)
                 break
             fi
         done < $dir/.share_opts
