@@ -1,13 +1,13 @@
 #!/bin/bash
 
-version=0.7
+version=0.8
 action=share
 move=false
 outfile=.
 everyone=false
 needsfn=true
 
-TEMP=`getopt -o +f:g::d::mo:eu:n:lvh --long file:,get::,outfile:,delete::,move,everyone,users:,negative:,list,ls,update,version,help -n ${0##*/} -- "$@"`
+TEMP=`getopt -o +f:g::d::mo:eu:n:lvh --long file:,get::,outfile:,delete::,move,everyone,users:,negative:,list,ls,version,help -n ${0##*/} -- "$@"`
 
 if [ $? != 0 ]; then
     exit 1
@@ -51,10 +51,6 @@ while true; do
             ;;
         -l|--list|--ls)
             action=list
-            needsfn=false
-            ;;
-        --update)
-            action=update
             needsfn=false
             ;;
         -v|--version)
@@ -171,32 +167,6 @@ case $action in
                 if [ ${fn##*/} != '.' -a ${fn##*/} != '..' ]; then
                     echo ${fn##*/}
                 fi
-            done
-        fi
-        ;;
-    update)
-        differences="`diff $0 ~2013cberman/.share/share/share 2>&1`"
-        if [ $? == 0 ]; then
-            echo "Up to date"
-        else
-            echo "Updating..."
-            cp ~2013cberman/.share/share/share $0
-            echo -n "Done.  View changes? "
-            answered=false
-            until $answered; do
-                read ans
-                case $ans in
-                    y|yes)
-                        echo -e "$differences"
-                        answered=true
-                        ;;
-                    n|no)
-                        answered=true
-                        ;;
-                    *)
-                        echo -n "View chagnges (y/n)? "
-                        ;;
-                esac
             done
         fi
         ;;
